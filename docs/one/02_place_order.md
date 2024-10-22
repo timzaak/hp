@@ -19,7 +19,7 @@
 若此时性能仍不达标，可以看看是否能够禁用优惠券、积分等减少数据库写操作。
 
 ## 数据库建表
-参考上一章 [电商业务梳理](./01_database_table.md)，我们创建数据库表。建表SQL文件: <a v-bind:href='resourceSrc + "/b2c_mall_init.sql"'>在此</a>。
+参考上一章 [电商业务梳理](./01_business_abstruct.md)，我们创建数据库表。建表SQL文件: <a v-bind:href='resourceSrc + "/b2c_mall_init.sql"'>在此</a>。
 
 ::: warning
 为了方便开发测试，每一次运行 b2c_mall_init.sql 都会删除所有表并重建。
