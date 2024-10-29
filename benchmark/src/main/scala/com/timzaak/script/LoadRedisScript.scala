@@ -8,7 +8,7 @@ import java.nio.file.{ Files, Path }
 object LoadRedisScript {
 
   def main(args: Array[String]): Unit = {
-    loadFunction()
+    loadCloudFunction()
     DI.jedis.functionList().forEach { v =>
       println(s"lib name:${v.getLibraryName}")
       v.getFunctions.forEach { f =>
@@ -16,10 +16,18 @@ object LoadRedisScript {
       }
     }
   }
-  def loadFunction() {
+  def loadOneFunction() {
     DI.jedis.functionLoadReplace(
       Files.readString(
         Path.of("../backend/src/main/lua/stock.lua"),
+        StandardCharsets.UTF_8
+      )
+    )
+  }
+  def loadCloudFunction(): Unit = {
+    DI.jedis.functionLoadReplace(
+      Files.readString(
+        Path.of("../cloud/stock.lua"),
         StandardCharsets.UTF_8
       )
     )

@@ -11,5 +11,7 @@ export default {
         ctx.app.config.globalProperties.codeSrc = gh + "/blob/main/backend/src/main/java/com/timzaak/backend"
         ctx.app.config.globalProperties.resourceSrc = gh + "/blob/main/backend/src/main/resources"
         ctx.app.config.globalProperties.benchSrc = gh + "/blob/main/benchmark/src/test/scala/com/timzaak"
+
+        ctx.app.config.globalProperties.cloud = gh + "/blob/main/cloud"
     }
 }

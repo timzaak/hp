@@ -22,12 +22,6 @@ object Helper {
     (init.initData(usersCount = userCount, userCoupon = userCoupon), init, dataViewer)
   }
 
-  def createPlaceOrderRequest() = {
-
-
-  }
-
-
   def closeAllResource = {
     DI.jedis.close()
     DBs.close()

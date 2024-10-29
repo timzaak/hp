@@ -2,12 +2,8 @@ package com.timzaak.backend.service;
 
 import com.timzaak.backend.controller.request.PlaceOrderRequest;
 import com.timzaak.backend.mapper.CouponMapper;
-
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;

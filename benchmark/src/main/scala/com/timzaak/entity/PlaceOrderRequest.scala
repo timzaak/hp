@@ -7,8 +7,8 @@ import scala.util.Random
 // 2 折扣
 case class CouponRule(`type`: Int, num: BigDecimal)
 object CouponRule {
-  val FullReductionType = 1
-  val DiscountReductionType = 2
+  val FullReductionType = 0
+  val DiscountReductionType = 1
 }
 case class Coupon(id: Long, rule: CouponRule)
 case class Product(id: Int, snapId: Int, count: Int, price: BigDecimal)
@@ -20,28 +20,37 @@ case class PlaceOrderRequest(
 ) {}
 
 object PlaceOrderRequest {
-  def mockSimple(productSnapPriceMap: Map[Int, BigDecimal], randomProductCount:Int = 3) = {
-    val products = (1  to (Random.nextInt(randomProductCount) + 1)).map{_ =>
-      val snapId = Random.nextInt(9)+1
-      Product(snapId, snapId, Random.nextInt(3) + 1, productSnapPriceMap(snapId))
+  def mockSimple(
+    productSnapPriceMap: Map[Int, BigDecimal],
+    randomProductCount: Int = 3
+  ) = {
+    val products = (1 to (Random.nextInt(randomProductCount) + 1)).map { _ =>
+      val snapId = Random.nextInt(9) + 1
+      Product(
+        snapId,
+        snapId,
+        Random.nextInt(3) + 1,
+        productSnapPriceMap(snapId)
+      )
     }
-    val bonus = if(Random.nextBoolean()) {Some(Random.nextInt(13) + 1)} else None
+    val bonus = if (Random.nextBoolean()) { Some(Random.nextInt(13) + 1) }
+    else None
     val req = PlaceOrderRequest(
       products = products.toList,
-      bonus= bonus,
+      bonus = bonus,
     )
     calcTotalAmount(req)
   }
-  def mockOneProduct(snapId:Int, price: BigDecimal) ={
+  def mockOneProduct(snapId: Int, price: BigDecimal) = {
     val products = List(Product(snapId, snapId, Random.nextInt(3) + 1, price))
-    val bonus = if(Random.nextBoolean()) {Some(Random.nextInt(13) + 1)} else None
+    val bonus = if (Random.nextBoolean()) { Some(Random.nextInt(13) + 1) }
+    else None
     val req = PlaceOrderRequest(
       products = products,
-      bonus= bonus,
+      bonus = bonus,
     )
     calcTotalAmount(req)
   }
-
 
   def calcTotalAmount(request: PlaceOrderRequest) = {
     import request._

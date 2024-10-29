@@ -1,0 +1,43 @@
+dubbo:
+  application:
+    logger: slf4j
+    name: others
+    qos-enable: false
+    check-serializable: false
+  registry:
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
+  protocol:
+    port: 20885
+    name: tri
+
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      group: 'SEATA_GROUP'
+      namespace: ''
+      username: 'nacos'
+      password: 'nacos'
+      application: seata-server
+  tx-service-group: my_tx_group
+  service:
+    vgroup-mapping:
+      my_tx_group: default
+  enable-auto-data-source-proxy: false
+
+spring:
+  application:
+    name: others
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: 127.0.0.1
+      jedis:
+        pool:
+          enabled: true

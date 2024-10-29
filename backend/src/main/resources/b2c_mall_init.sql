@@ -98,3 +98,18 @@ call create_product('test_product_7', 7.77);
 call create_product('test_product_8', 8.88);
 call create_product('test_product_9', 9.99);
 call create_product('test_product_10', 10.00);
+
+drop table if exists tcc_fence_log;
+-- 这是 用来做 Seata TCC 幂等
+CREATE TABLE IF NOT EXISTS public.tcc_fence_log
+(
+    xid              VARCHAR(128)  NOT NULL,
+    branch_id        BIGINT        NOT NULL,
+    action_name      VARCHAR(64)   NOT NULL,
+    status           SMALLINT      NOT NULL,
+    gmt_create       TIMESTAMP(3)  NOT NULL,
+    gmt_modified     TIMESTAMP(3)  NOT NULL,
+    CONSTRAINT pk_tcc_fence_log PRIMARY KEY (xid, branch_id)
+);
+CREATE INDEX idx_gmt_modified ON public.tcc_fence_log (gmt_modified);
+CREATE INDEX idx_status ON public.tcc_fence_log (status);

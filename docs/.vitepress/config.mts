@@ -18,9 +18,12 @@ export default defineConfig({
         {text: '电商业务梳理(程序员可跳过)', link: 'one/01_business_abstruct'}, 
         {text: '下单业务与代码实现', link: 'one/02_place_order'},
         {text: '下单接口性能提升', link: 'one/03_place_order_enhance'},
-        {text: '总结', link: 'one/04_advanced'},
+        {text: '总结', link: 'one/04_advanced'},      
       ], link: 'one/intro '},
       {text: '微服务', items: [
+        {text: '单服务到微服务', link: 'cloud/00_change_from_one'},
+        {text: '微服务拆分', link: 'cloud/01_split'},
+        {text: '性能测试', link: 'cloud/02_benchmark'}
       ], link: 'cloud/intro'}
     ],
 
