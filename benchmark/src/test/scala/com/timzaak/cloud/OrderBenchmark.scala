@@ -9,7 +9,7 @@ import io.circe.syntax._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
-//sbt 'Gatling/testOnly com.timzaak.cloud.OrderBenchmark'
+//sbt 'Gatling/testOnly com.timzaak.cloud.OrderBenchmark' -Dusers=1 -Drepeat=5
 class OrderBenchmark extends Simulation {
   val users = Integer.getInteger("users", 100).toInt
   val repeat = Integer.getInteger("repeat", 500).toInt
@@ -44,7 +44,7 @@ class OrderBenchmark extends Simulation {
 
     exec(
       http("place order multiple products")
-        .post("/order2_redis")
+        .post("/order")
         .header("Authorization", session => userSession(session.userId.toInt))
         .header("Content-Type", "application/json")
         .body(StringBody("#{body}"))

@@ -12,7 +12,7 @@ import io.gatling.http.Predef._
  *   - [[https://gatling.io/docs/gatling/tutorials/advanced Gatling advanced tutorial]]
  */
 
-//sbt 'Gatling/testOnly com.timzaak.cloud.BaseTransactionBenchmark' -Dusers=200 -Drepeat=100
+//sbt 'Gatling/testOnly com.timzaak.cloud.BaseTransactionBenchmark' -Dusers=1 -Drepeat=10
 class BaseTransactionBenchmark extends Simulation {
   DI.jedis.flushDB()
   new UserSessionGenerate(DI.jedis).generate(1 -> "t")

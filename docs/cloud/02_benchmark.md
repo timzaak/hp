@@ -14,14 +14,13 @@ sbt 'Gatling/testOnly com.timzaak.cloud.BaseRPCBenchmark' -Dusers=200 -Drepeat=1
 ```sh
 sbt 'Gatling/testOnly com.timzaak.cloud.BaseTransactionBenchmark' -Dusers=200 -Drepeat=100
 ```
-测试了两次，seata server 都崩溃，停止测试。
+测试了两次，seata server 都崩溃，停止测试。 将参数调整为 `-Dusers=1 -Drepeat=5000` 也会崩。所以本地模式不适合做性能测试。
 
 ### 下单测试
 ```sh
 sbt 'Gatling/testOnly com.timzaak.cloud.OrderBenchmark' -Dusers=200 -Drepeat=100
 ```
-测试了两次，seata server 都崩溃，停止测试。
-
+同上
 
 ## 基于云平台测试
-
+TODO

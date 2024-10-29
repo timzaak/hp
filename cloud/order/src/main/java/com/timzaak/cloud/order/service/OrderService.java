@@ -92,14 +92,16 @@ public class OrderService {
                 .build()).orElseGet(() -> Coupon.newBuilder().build());
 
 
-        var p2 = BuyRequest.newBuilder().setOrderId(orderId)
-                .setBonus(request.bonus().orElse(0))
-                .setCoupon(c)
-                .setUserId(userId)
-                .build();
-        var otherReply = othersAPI.buy(p2);
-        if(!otherReply.getIsOk()) {
-            throw new Exception("Other Error");
+        if(request.coupon().isPresent() || request.bonus().orElse(0) > 0) {
+            var p2 = BuyRequest.newBuilder().setOrderId(orderId)
+                    .setBonus(request.bonus().orElse(0))
+                    .setCoupon(c)
+                    .setUserId(userId)
+                    .build();
+            var otherReply = othersAPI.buy(p2);
+            if (!otherReply.getIsOk()) {
+                throw new Exception("Other Error");
+            }
         }
 
         var info = new OrderInfo(
