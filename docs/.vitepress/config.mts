@@ -23,7 +23,8 @@ export default defineConfig({
       {text: '微服务', items: [
         {text: '单服务到微服务', link: 'cloud/00_change_from_one'},
         {text: '微服务拆分', link: 'cloud/01_split'},
-        {text: '性能测试', link: 'cloud/02_benchmark'}
+        {text: '性能测试', link: 'cloud/02_benchmark'},
+        {text: '总结', link: 'cloud/03_advanced'},
       ], link: 'cloud/intro'}
     ],
 
