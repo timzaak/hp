@@ -1,4 +1,4 @@
-name: backend server build
+name: cloud server build
 on:
   workflow_dispatch:
     inputs:
