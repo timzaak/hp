@@ -43,7 +43,10 @@ nacos/nacos-server:v2.4.3
 # 浏览器访问 http://127.0.0.1:7091, 默认账号密码：seata/seata
 docker run -d --name seata -p 8091:8091 -p 7091:7091 \
 -e SEATA_IP=192.168.31.146 \
+-v $(pwd)/seata.application.yml:/seata-server/resources/application.yml \
+-v $(pwd)/seata.logback.xml:/seata-server/resources/logback.xml \
 seataio/seata-server:2.0.0
+
 ```
 <a v-bind:href="cloud+'/seata.application.yml'">seata.application.yml</a>
 *注意替换IP为自己的局域网IP*。

@@ -22,7 +22,7 @@ class BaseBenchmark extends Simulation {
   val repeat = Integer.getInteger("repeat", 500).toInt
 
   val httpProtocol = http
-    .baseUrl("http://127.0.0.1:8080") // Here is the root for all relative URLs
+    .baseUrl(DI.baseUrl) // Here is the root for all relative URLs
     // .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") // Here are the common headers
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")

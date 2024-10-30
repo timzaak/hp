@@ -36,18 +36,6 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
-        <!--follow dubbo version-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.dubbo.extensions</groupId>-->
-<!--            <artifactId>dubbo-filter-seata</artifactId>-->
-<!--            <version>3.3.0</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.apache.seata</groupId>-->
-<!--                    <artifactId>seata-core</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
 
     </dependencies>
 

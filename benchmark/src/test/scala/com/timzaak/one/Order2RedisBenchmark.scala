@@ -1,6 +1,6 @@
 package com.timzaak.one
 
-import com.timzaak.Helper
+import com.timzaak.{ DI, Helper }
 import com.timzaak.entity.PlaceOrderRequest
 import com.timzaak.script.LoadRedisScript
 import io.circe._
@@ -23,7 +23,7 @@ class Order2RedisBenchmark extends Simulation {
     Printer.noSpaces.copy(dropNullValues = true)
 
   val httpProtocol = http
-    .baseUrl("http://127.0.0.1:8080") // Here is the root for all relative URLs
+    .baseUrl(DI.baseUrl) // Here is the root for all relative URLs
     // .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") // Here are the common headers
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")

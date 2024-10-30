@@ -1,6 +1,6 @@
 package com.timzaak.one
 
-import com.timzaak.Helper
+import com.timzaak.{ Helper, DI }
 import com.timzaak.entity.PlaceOrderRequest
 import io.circe._
 import io.circe.generic.auto._
@@ -23,7 +23,7 @@ class Order1OneProductBenchmark extends Simulation {
     Printer.noSpaces.copy(dropNullValues = true)
 
   val httpProtocol = http
-    .baseUrl("http://127.0.0.1:8080") // Here is the root for all relative URLs
+    .baseUrl(DI.baseUrl) // Here is the root for all relative URLs
     // .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") // Here are the common headers
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
@@ -34,9 +34,10 @@ class Order1OneProductBenchmark extends Simulation {
   val priceMap = dataViewer.getProductSnapPrice((1 to 10).toList)
   val dataMap = (1 to 10).map { snapId =>
     val req = PlaceOrderRequest.mockOneProduct(
-      snapId, priceMap(snapId)
+      snapId,
+      priceMap(snapId)
     )
-    (snapId -1) -> jsonPrinter.print(req.asJson)
+    (snapId - 1) -> jsonPrinter.print(req.asJson)
   }.toMap
 
   val scn = scenario(s"place order bench:${users}").repeat(repeat) {

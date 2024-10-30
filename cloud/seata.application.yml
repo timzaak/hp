@@ -6,7 +6,8 @@ spring:
     name: seata-server
 
 logging:
-  config: classpath:logback-spring.xml
+  #config: classpath:logback-spring.xml
+  config: /seata-server/resources/seata.logback.xml
   file:
     path: ${user.home}/logs/seata
 
@@ -31,7 +32,19 @@ seata:
 
   store:
     # support: file 、 db 、 redis
-    mode: file
+    mode: redis
+    redis:
+      mode: single
+      type: lua
+      database: 1
+      min-conn: 10
+      max-conn: 100
+      password:
+      max-total: 100
+      query-limit: 2000
+      single:
+        host: 192.168.31.146
+        port: 6379
   #  server:
   #    service-port: 8091 #If not configured, the default is '${server.port} + 1000'
   security:
