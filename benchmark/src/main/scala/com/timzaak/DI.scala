@@ -9,8 +9,9 @@ object DI {
   lazy val config = ConfigFactory.load()
 
   lazy val baseUrl = config.getString("apiServer")
+  lazy  val redisHost = config.getString("redis.host")
 
-  object jedis extends JedisPooled()
+  object jedis extends JedisPooled(redisHost)
 
   DBs.setup()
 
