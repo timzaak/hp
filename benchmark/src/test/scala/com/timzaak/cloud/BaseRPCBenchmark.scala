@@ -1,6 +1,6 @@
 package com.timzaak.cloud
 
-import com.timzaak.{ DI, Helper }
+import com.timzaak.{ DI }
 import com.timzaak.common.UserSessionGenerate
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
