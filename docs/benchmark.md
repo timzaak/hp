@@ -52,28 +52,12 @@ dokcer ps
 ### 部署服务
 ```sh
 docker run -d --network=host --name=backend \
--v $(pwd)/application.yml:/server/config/application.yml \ 
+-v $(pwd)/application.yml:/server/config/application.yml \
 ghcr.io/timzaak/hp-backend:0.0.1
 
-
+# 国内可以用 ghcr.nju.edu.cn/timzaak/hp-backend:0.0.1 加速
 ```
 
-```yml
-spring:
-  application:
-    name: backend
-  datasource:
-    url: jdbc:postgresql://10.23.214.202:5432/testdb
-    username: root
-    password: postgres_
-    driver-class-name: org.postgresql.Driver
-  data:
-    redis:
-      host: 10.23.171.15
-      jedis:
-        pool:
-          enabled: true
-```
 
 
 

@@ -11,7 +11,7 @@ object DI {
   lazy val baseUrl = config.getString("apiServer")
   lazy  val redisHost = config.getString("redis.host")
 
-  object jedis extends JedisPooled(redisHost)
+  object jedis extends JedisPooled(redisHost,6379)
 
   DBs.setup()
 
