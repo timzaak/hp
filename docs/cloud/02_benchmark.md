@@ -21,3 +21,6 @@ sbt 'Gatling/testOnly com.timzaak.cloud.BaseTransactionBenchmark' -Dusers=200 -D
 sbt 'Gatling/testOnly com.timzaak.cloud.OrderBenchmark' -Dusers=200 -Drepeat=100
 ```
 同上
+
+## 小结
+很难评，不确定是 Seata 的问题还是我部署的问题。 Seata 2.0、2.2 都未能正常测试过。

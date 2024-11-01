@@ -13,7 +13,7 @@ public class TCCTestImpl implements TCCTest {
     @TwoPhaseBusinessAction(name = "TccOtherTestAction")
     @Override
     public boolean prepare(String a) {
-        // System.out.println("TccOtherTestAction prepare, xid:" + RootContext.getXID() + ", a:" + a);
+        System.out.println("TccOtherTestAction prepare, xid:" + RootContext.getXID() + ", a:" + a);
         return true;
     }
 

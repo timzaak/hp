@@ -39,7 +39,7 @@ public class BaseController {
     @GetMapping("/transaction")
     public SampleResp transaction(@RequestParam(value="t", defaultValue = "default") String t) {
         try {
-            tccTestService.doTransactionAsync();
+            tccTestService.doTransaction();
         }catch (Exception e) {
             e.printStackTrace();
         }

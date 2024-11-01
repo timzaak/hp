@@ -13,16 +13,16 @@ public class TCCTestImpl implements TCCTest {
     @Override
     @TwoPhaseBusinessAction(name = "DubboTccActionOne")
     public boolean prepare(BusinessActionContext actionContext, @BusinessActionContextParameter(paramName = "a") int a) {
-        // var xid= RootContext.getXID();
-        // System.out.println("TccActionOne prepare, xid:" + xid + ", a:" + a);
+
+        System.out.println("TccActionOne prepare, xid:" + actionContext.getXid() + ", a:" + a);
         return true;
     }
 
     @Override
     public boolean commit(BusinessActionContext actionContext) {
-        // System.out.println("commit.....");
-        // String xid = actionContext.getXid();
-        // System.out.println("TccActionOne commit, xid:" + xid + ", a:" + actionContext.getActionContext("a"));
+        System.out.println("commit.....");
+        String xid = actionContext.getXid();
+        System.out.println("TccActionOne commit, xid:" + xid + ", a:" + actionContext.getActionContext("a"));
         return true;
     }
 

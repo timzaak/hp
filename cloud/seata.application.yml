@@ -6,10 +6,10 @@ spring:
     name: seata-server
 
 logging:
-  #config: classpath:logback-spring.xml
-  config: /seata-server/resources/seata.logback.xml
+  config: classpath:logback-spring.xml
+  #config: /seata-server/resources/seata.logback.xml
   file:
-    path: ${user.home}/logs/seata
+    path: ${log.home:${user.home}/logs/seata}
 
 console:
   user:
@@ -50,5 +50,6 @@ seata:
   security:
     secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
     tokenValidityInMilliseconds: 1800000
+    csrf-ignore-urls: /metadata/v1/**
     ignore:
-      urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login,/metadata/v1/**
+      urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login,/version.json,/health,/error,/vgroup/v1/**#

@@ -44,8 +44,23 @@ nacos/nacos-server:v2.4.3
 docker run -d --name seata -p 8091:8091 -p 7091:7091 \
 -e SEATA_IP=192.168.31.146 \
 -v $(pwd)/seata.application.yml:/seata-server/resources/application.yml \
--v $(pwd)/seata.logback.xml:/seata-server/resources/logback.xml \
-seataio/seata-server:2.0.0
+-v $(pwd)/seata.logback.xml:/seata-server/resources/logback-spring.xml \
+apache/seata-server:2.2.0
+
+
+docker run  --name seata -p 8091:8091 -p 7091:7091 \
+-e SEATA_IP=192.168.31.146 \
+-v $(pwd)/seata.application.yml:/seata-server/resources/application.yml \
+-v $(pwd)/seata.logback.xml:/seata-server/resources/logback-spring.xml \
+apache/seata-server:2.2.0
+
+
+docker run --rm --name seata -p 8091:8091 -p 7091:7091 \
+-e SEATA_IP=192.168.31.146 \
+apache/seata-server:2.2.0
+#-v $(pwd)/seata.logback.xml:/seata-server/resources/logback.xml \
+
+
 
 ```
 <a v-bind:href="cloud+'/seata.application.yml'">seata.application.yml</a>
