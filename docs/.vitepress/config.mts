@@ -25,7 +25,8 @@ export default defineConfig({
         {text: '微服务拆分', link: 'cloud/01_split'},
         {text: '性能测试', link: 'cloud/02_benchmark'},
         {text: '总结', link: 'cloud/03_advanced'},
-      ], link: 'cloud/intro'}
+      ], link: 'cloud/intro'},
+      {text: '生产环境', link: 'benchmark'}
     ],
 
     socialLinks: [

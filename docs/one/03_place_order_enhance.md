@@ -24,6 +24,9 @@ TPS从 `150` 提升至 `230`。但引入了*漏库存*的风险（扣减完库�
 该优化点引了*队列*，国内的常见队列选型有：RocketMQ、Kafka、RabbitMQ ，但笔记本性能再负载个 RocketMQ 去做性能测试误差太大，先不写异步队列相关逻辑。
 
 逻辑代码：<a v-bind:href="codeSrc + '/controller/Order2Controller.java'">Order2Controller.java</a> 中的 `/order2_redis`。 Redis Function脚本：<a v-bind:href="luaSrc + '/stock.lua'">stock.lua</a>（Redis7 支持 Function，低于此版本，需要使用 Script），该lua脚本会被性能测试脚本自动写入到 Redis 中。
+```shell
+sbt 'Gatling/testOnly com.timzaak.one.Order2RedisBenchmark'
+```
 
 测试结果：**TPS 约 `450`，75%响应时间低于`239ms`, `5.46%`失败（数据库 40001）**。
 ![order2_redis](/img/order2_redis.png)

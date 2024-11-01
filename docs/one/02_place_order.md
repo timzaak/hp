@@ -86,7 +86,7 @@ mobile 手机号在 PG 数据库里，直接用`text`类型即可，但 MySQL �
 测试代码：<a v-bind:href="benchSrc + '/one/Order1NoTransactionBenchmark.scala'">Order1NoTransactionBenchmark.scala</a>
 
 ```shell
-sbt 'Gatling/testOnly com.timzaak.one.OrderNoTransactionBenchmark'
+sbt 'Gatling/testOnly com.timzaak.one.Order1NoTransactionBenchmark'
 ```
 
 测试结果： **TPS 约 `450`，75%响应时间低于`265ms`**。

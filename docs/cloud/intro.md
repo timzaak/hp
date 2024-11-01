@@ -35,4 +35,4 @@ RPC 框架选择 Dubbo + protobuf：
 SkyWalking 国内用的多，OpenTelemetry 多语言框架支持性好，这个最终看所部署的云平台支持哪个好用哪个。若自建，则需要基于运维工程师的经验来选。
 
 ### Log
-云平台都有集成方案，自建图便宜走Lokki，想快走ELK，数据量太大走 Clickhouse 二开。
+云平台都有集成方案，自建图便宜走Lokki，想快走ELK，数据量太大走 Clickhouse、Doris 二开。
