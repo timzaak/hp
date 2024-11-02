@@ -47,28 +47,13 @@ docker run -d --name seata -p 8091:8091 -p 7091:7091 \
 -v $(pwd)/seata.logback.xml:/seata-server/resources/logback-spring.xml \
 apache/seata-server:2.2.0
 
-
-docker run  --name seata -p 8091:8091 -p 7091:7091 \
--e SEATA_IP=192.168.31.146 \
--v $(pwd)/seata.application.yml:/seata-server/resources/application.yml \
--v $(pwd)/seata.logback.xml:/seata-server/resources/logback-spring.xml \
-apache/seata-server:2.2.0
-
-
-docker run --rm --name seata -p 8091:8091 -p 7091:7091 \
--e SEATA_IP=192.168.31.146 \
-apache/seata-server:2.2.0
-#-v $(pwd)/seata.logback.xml:/seata-server/resources/logback.xml \
-
-
-
 ```
-<a v-bind:href="cloud+'/seata.application.yml'">seata.application.yml</a>
+配置文件链接 ：<a v-bind:href="cloud+'/seata.application.yml'">seata.application.yml</a>
 *注意替换IP为自己的局域网IP*。
 
-<a v-bind:href="cloud">代码目录入口</a>，其中 BaseController 里提供了 `/rpc` `/transaction` API接口，用来测试 dubbo 和 seata。
+<a v-bind:href="cloud">代码目录入口</a>，其中 BaseController 里提供了 `/rpc` `/transaction` API接口，用来做 dubbo 和 seata 的基准测试。
 
 ### 代码注意点
-我们以 `库存以redis为准` 的版本来改造，会遇到如下问题：
+我们在 `库存以redis为准` 的版本上改造，会遇到如下问题：
 > 1. TCC分布式事务 try、cancel 乱序 or try 不执行问题，useTCCFence 虽然能解决，但是挂在数据库上解决，库存变更逻辑需要改写 lua 脚本，解决上述问题。
-> 2. 由于 Seata，写在 Controller 下单逻辑需要迁移至 Service 层。将数据库操作写在构建 TCCAction interface 实现类里。
+> 2. 由于 Seata 实现逻辑，写在 Controller 下单逻辑需要迁移至 Service 层。将数据库操作写在构建 TCCAction interface 实现类里。
