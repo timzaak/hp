@@ -47,5 +47,6 @@ jobs:
           push: true        
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: ${{matrix.settings.service}}
+          build-args: |
+            SERVICE=${{matrix.settings.service}}
           tags: ${{ env.REGISTRY }}/timzaak/hp-cloud-${{matrix.settings.service}}:${{github.event.inputs.version}}, ${{ env.REGISTRY }}/timzaak/hp-cloud-${{matrix.settings.service}}:latest
