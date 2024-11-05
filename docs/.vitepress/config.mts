@@ -26,7 +26,7 @@ export default defineConfig({
         {text: '性能测试', link: 'cloud/02_benchmark'},
         {text: '总结', link: 'cloud/03_advanced'},
       ], link: 'cloud/intro'},
-      {text: '生产环境', link: 'benchmark'}
+      {text: '生产环境性能测试', link: 'benchmark'}
     ],
 
     socialLinks: [

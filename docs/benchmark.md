@@ -85,3 +85,135 @@ dokcer ps
 
 ## 微服务
 TODO: blocked by github issue: [Seata 2.2.0 TCC模式 性能测试崩溃](https://github.com/apache/incubator-seata/issues/6972)
+### 运行环境
+| 服务       | 配置        |
+|------------|-------------|
+| PostgreSQL | 4C8G 40G RSSD 16.4 高可用版|
+| 微服务+Redis | Ubuntu 8C16G |
+| Redis      | 版本7.0 1G 主从 (只给 Seata 用)|
+| Gatling |Ubuntu 4C8G|
+|Nacos、Seata 2.2.0| Ubuntu 8C16G， 采用redis 作为数据备份｜
+
+### 部署服务
+#### 配置文件
+
+后台服务配置文件：
+```yml
+dubbo:
+  application:
+    logger: slf4j
+    name: ${APP_NAME}
+    qos-enable: false
+    check-serializable: false
+  registry:
+    address: nacos://${NACOS_ADDRESS}:8848?username=nacos&password=nacos
+  protocol:
+    port: ${DUBBO_PORT}
+    name: tri
+
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${SEATA_ADDRESS}:8848
+      group: 'SEATA_GROUP'
+      namespace: ''
+      username: 'nacos'
+      password: 'nacos'
+      application: seata-server
+  tx-service-group: my_tx_group
+  service:
+    vgroup-mapping:
+      my_tx_group: default
+    disable-global-transaction: false
+  enable-auto-data-source-proxy: false
+
+spring:
+  application:
+    name: ${APP_NAME}
+  datasource:
+    url: jdbc:postgresql://${PG_ADDRESS}:5432/db
+    username: root
+    password: postgres_t
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: ${REDIS_ADDRESS}
+      jedis:
+        pool:
+          enabled: true
+server:
+  port: ${WEB_PORT}          
+```
+
+
+```sh
+
+```shell
+# Nacos
+# 浏览器访问 http://127.0.0.1:8848/nacos
+docker run -d --name=nacos  --network=host \
+-e PREFER_HOST_MODE=hostname \
+-e MODE=standalone \
+-e NACOS_AUTH_IDENTITY_KEY=serverIdentity \
+-e NACOS_AUTH_IDENTITY_VALUE=security \
+-e NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789 \
+nacos/nacos-server:v2.4.3
+
+# Seata
+# 注意 SEATA_IP 和 seata.applciation.yml 里的IP配置，需要都能互通
+# 浏览器访问 http://127.0.0.1:7091, 默认账号密码：seata/seata
+# 配置文件 在 cloud 目录下，要修改 ip
+docker run -d --name seata --network=host \
+-e SEATA_IP=10.23.84.252 \
+-v $(pwd)/seata.application.yml:/seata-server/resources/application.yml \
+apache/seata-server:2.2.0
+# -v $(pwd)/seata.logback.xml:/seata-server/resources/logback-spring.xml \
+
+docker run -d --network=host --name=order \
+-e APP_NAME=order \
+-e PG_ADDRESS=10.23.175.165 \
+-e SEATA_ADDRESS=10.23.84.252 \
+-e NACOS_ADDRESS=10.23.84.252 \
+-e REDIS_ADDRESS=127.0.0.1 \
+-e DUBBO_PORT=20883 \
+-e WEB_PORT=8080 \
+-v $(pwd)/application.yml:/server/config/application.yml \
+ghcr.io/timzaak/hp-cloud-order:0.0.1
+
+docker run -d --network=host --name=product \
+-e APP_NAME=product \
+-e PG_ADDRESS=10.23.175.165 \
+-e SEATA_ADDRESS=10.23.84.252 \
+-e NACOS_ADDRESS=10.23.84.252 \
+-e REDIS_ADDRESS=10.23.129.74 \
+-e DUBBO_PORT=20882 \
+-e WEB_PORT=8081 \
+-v $(pwd)/application.yml:/server/config/application.yml \
+ghcr.io/timzaak/hp-cloud-product:0.0.1
+
+docker run -d --network=host --name=others \
+-e APP_NAME=others \
+-e PG_ADDRESS=10.23.175.165 \
+-e SEATA_ADDRESS=10.23.84.252 \
+-e NACOS_ADDRESS=10.23.84.252 \
+-e REDIS_ADDRESS=10.23.129.74 \
+-e DUBBO_PORT=20881 \
+-e WEB_PORT=8082 \
+-v $(pwd)/application.yml:/server/config/application.yml \
+ghcr.io/timzaak/hp-cloud-others:0.0.1
+
+# 国内可以用 ghcr.nju.edu.cn/timzaak/hp-*:0.0.1 加速
+```
+
+### 测试结果
+| 测试内容                                 | TPS/QPS | 75%响应时常（ms） | 错误率 | 备注                               |
+|------------------------------------------|:---------:|:--------:|:--------:|------------------------------------|
+|1. RPC 基本测试（）|     6000(cpu 高峰 30%)   |55   |   0  | 1 redis session check + 1 db query |
+|2.请求基准测试（100用户100次）|     5000   |18   |   0  | 1 redis session check + 1 db query |
+|3.下单基准测试 （100用户，500次）|      3125  | 39      | 0       | 数据库纯插入，无事务               |
+|4.下单纯数据库事务（10用户1000次）         |   3571.43|  40   |    0.28    | 用户只购买一款产品，类似秒杀       |
+|5.下单纯数据库事务（100用户500次）         |  3333.33    |    39    |    0.52    | 用户只购买一款产品，类似秒杀       |
+|6.下单纯数据库事务（100用户500次）         |     148.37    |   1029   |  0.25    | 用户只购买1～3款产品      |(毛刺严重)
+|7.拆分事务（100用户500次）                 |      97.47	   |     2016       |   0.23     | 用户只购买1～3款产品|(毛刺严重)
+|8.库存以内存为准，异步落库（100用户500次） |     3571.43	    |     37    |    0.06    | 用户只购买1～3款产品  |
