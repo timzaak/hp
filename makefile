@@ -10,5 +10,5 @@ release-cloud:
 	cd cloud && mvn clean package -DSkipTests=true
 	mkdir -p cloud/docker/app
 	cp cloud/order/target/order-*.jar cloud/docker/app/order.jar
-	cp cloud/order/target/others-*.jar cloud/docker/app/others.jar
-	cp cloud/order/target/product-*.jar cloud/docker/app/product.jar
+	cp cloud/others/target/others-*.jar cloud/docker/app/others.jar
+	cp cloud/product/target/product-*.jar cloud/docker/app/product.jar
