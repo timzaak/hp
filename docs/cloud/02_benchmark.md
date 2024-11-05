@@ -10,19 +10,5 @@ sbt 'Gatling/testOnly com.timzaak.cloud.BaseRPCBenchmark' -Dusers=200 -Drepeat=1
 ```
 包含一次redis + 一次 dubbo rpc 调用，QPS约`1300`,75%响应`182ms`。
 
-### 分布式事务基准测试
-```sh
-sbt 'Gatling/testOnly com.timzaak.cloud.BaseTransactionBenchmark' -Dusers=200 -Drepeat=100
-```
-包含一次redis + 两个微服务空事务，测试了两次，seata server 都崩溃，停止测试。崩溃前 QPS约：`100`。
-
-### 下单测试
-```sh
-sbt 'Gatling/testOnly com.timzaak.cloud.OrderBenchmark' -Dusers=200 -Drepeat=100
-```
-同上
-
-## 小结
-很难评，不确定是 Seata 的问题还是我的测试环境问题。 Seata 2.0、2.2 都未能正常测试过。 但从 分布式事务基准测试 未崩溃前的结果来看，在开发机器上，性能并没有一个很好的提升。在网上搜索关于 Seata 性能测试，未能找到同时给出测试代码、硬件配置、测试结论的文章。后续有时间需要补充一个多机器测试的版本。
-
-
+### 事务基准测试(Seata)
+由于机器资源有限，在测试过程中，Seata 会崩溃，具体数据可参考 [生产环境性能测试](../benchmark.md)
