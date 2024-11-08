@@ -11,4 +11,4 @@ sbt 'Gatling/testOnly com.timzaak.cloud.BaseRPCBenchmark' -Dusers=200 -Drepeat=1
 包含一次redis + 一次 dubbo rpc 调用，QPS约`1300`,75%响应`182ms`。
 
 ### 事务基准测试(Seata)
-由于机器资源有限，在测试过程中，Seata 会崩溃，具体数据可参考 [生产环境性能测试](../benchmark.md)
+由于机器资源有限，在测试过程中 Seata 会崩溃，实际数据可参考 [生产环境性能测试](../benchmark.md#微服务)
