@@ -30,9 +30,6 @@ public class OrderService {
             final var bonus = request.bonus().get();
             sumAmount = sumAmount.subtract(new BigDecimal(bonus).divide(BigDecimal.valueOf(100), 2, RoundingMode.DOWN));
         }
-        if(sumAmount.compareTo(request.totalAmount()) != 0) {
-            return false;
-        }
-        return true;
+        return sumAmount.compareTo(request.totalAmount()) == 0;
     }
 }
